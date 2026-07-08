@@ -1,120 +1,78 @@
 # 🎮 Game Picker — UMB & АГС
 
-Приложение для выбора игр для совместной игры. Управление коллекцией, списки желаний, рекомендации на основе пересечения интересов.
+Приложение для выбора игр для совместной игры. Полностью статическое — работает без сервера, данные хранятся в localStorage браузера.
 
 ![Next.js](https://img.shields.io/badge/Next.js-16-black)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-blue)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)
 
 ## ✨ Возможности
 
 - 📚 **Библиотека игр** с обложками из Steam
-- 👥 **Отдельные профили** для каждого игрока (UMB и АГС)
-- ⭐ **Списки желаний** — персональные для каждого
-- ✨ **Рекомендации** — алгоритм на основе пересечения интересов
-- 🎲 **Рулетка** — случайный выбор из подходящих игр
-- 🔍 **Поиск в Steam** — добавление игр с автозаполнением
+- 👥 **Отдельные профили** для каждого игрока
+- ⭐ **Списки желаний** — персональные
+- ✨ **50+ рекомендаций** на основе пересечения интересов
+- 🎲 **Рулетка** — случайный выбор
+- 💾 **Сохранение** — всё хранится в браузере
 
-## 🚀 Деплой на Vercel + Neon
+## 🚀 Деплой на Vercel (бесплатно)
 
-### 1. Создайте бесплатную БД на Neon
-
-1. Зайдите на [neon.tech](https://neon.tech) и создайте аккаунт
-2. Создайте новый проект (Free tier)
-3. Скопируйте **Connection string** (выглядит как `postgresql://user:pass@host/db?sslmode=require`)
-
-### 2. Залейте на GitHub
+### Шаг 1. Залейте на GitHub
 
 ```bash
-# Инициализируйте репозиторий
 git init
 git add .
-git commit -m "Initial commit"
-
-# Создайте репозиторий на GitHub и подключите
-git remote add origin https://github.com/YOUR_USERNAME/game-picker.git
-git branch -M main
+git commit -m "Game Picker"
+git remote add origin https://github.com/ВАШ_ЛОГИН/game-picker.git
 git push -u origin main
 ```
 
-### 3. Задеплойте на Vercel
+### Шаг 2. Деплой
 
-1. Зайдите на [vercel.com](https://vercel.com) и авторизуйтесь через GitHub
-2. Нажмите **"Add New Project"** → выберите ваш репозиторий
-3. В разделе **Environment Variables** добавьте:
-   - `DATABASE_URL` = ваша строка подключения Neon
+1. Зайдите на [vercel.com](https://vercel.com)
+2. Нажмите **"Add New Project"**
+3. Выберите ваш репозиторий
 4. Нажмите **Deploy**
 
-### 4. Инициализируйте БД
-
-После первого деплоя выполните:
-
-```bash
-# Установите Vercel CLI
-npm i -g vercel
-
-# Подключитесь к проекту
-vercel link
-
-# Запустите миграцию через Vercel
-vercel env pull .env.local
-npx drizzle-kit push
-```
-
-Или добавьте схему вручную через Neon SQL Editor.
+Всё! Никаких переменных окружения не нужно.
 
 ## 🛠 Локальная разработка
 
 ```bash
-# Установите зависимости
 npm install
-
-# Создайте .env файл
-echo "DATABASE_URL=postgresql://postgres:postgres@localhost:5432/game_picker" > .env
-
-# Запустите PostgreSQL (Docker)
-docker run -d --name game-picker-db \
-  -e POSTGRES_PASSWORD=postgres \
-  -e POSTGRES_DB=game_picker \
-  -p 5432:5432 postgres:16
-
-# Примените схему
-npx drizzle-kit push
-
-# Запустите dev сервер
 npm run dev
 ```
 
 Откройте [http://localhost:3000](http://localhost:3000)
 
-## 📁 Структура проекта
+## 📁 Структура
 
 ```
 src/
 ├── app/
-│   ├── page.tsx          # Главная страница
-│   ├── layout.tsx        # Layout с метаданными
-│   ├── globals.css       # Стили Tailwind
-│   └── api/
-│       ├── games/        # CRUD для игр
-│       ├── recommendations/  # Рекомендации
-│       ├── seed/         # Начальные данные
-│       └── steam-search/ # Поиск в Steam
-├── db/
-│   ├── index.ts          # Подключение к БД
-│   └── schema.ts         # Схема Drizzle ORM
+│   ├── page.tsx        # Главная страница (всё приложение)
+│   ├── layout.tsx      # Layout
+│   ├── globals.css     # Стили
+│   └── api/health/     # Health check (для Vercel)
 └── lib/
-    ├── types.ts          # TypeScript типы
-    └── seed-data.ts      # Начальные данные
+    ├── storage.ts      # Работа с localStorage
+    └── seed-data.ts    # Начальные данные (игры, рекомендации)
 ```
+
+## 💾 Данные
+
+Все изменения сохраняются в localStorage браузера:
+- Изменения статусов игр
+- Добавленные игры
+- Отклонённые рекомендации
+
+Кнопка **↺** в хедере сбрасывает данные к начальным.
 
 ## 🔧 Технологии
 
 - **Next.js 16** — React фреймворк
-- **Drizzle ORM** — типизированная работа с БД
-- **PostgreSQL** — база данных
 - **Tailwind CSS 4** — стилизация
 - **TypeScript** — типизация
+- **localStorage** — хранение данных
 
 ## 📝 Лицензия
 
